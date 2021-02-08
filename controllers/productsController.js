@@ -3,7 +3,7 @@ const productService = require('../services/productService');
 const router = Router();
 
 router.get('/', (req, res) => {
-    let cubes = productService.getAll();
+    let cubes = productService.getAll(req.query);
     res.render('home', { title: 'Home', cubes });
 });
 
@@ -12,8 +12,10 @@ router.get('/create', (req, res) => {
 });
 
 router.post('/create', validateProduct, (req, res) => {
-    productService.create(req.body);
-    res.redirect('/');
+    productService.create(req.body)
+        .then(() => res.redirect('./'))
+        .catch(() => res.status(500).end());
+
 });
 
 router.get('/details/:productId', (req, res) => {

@@ -11,14 +11,27 @@ router.get('/create', (req, res) => {
     res.render('create', { title: 'Create' });
 });
 
-router.post('/create', (req, res) => {
-    // Need to validate inputs!!
+router.post('/create', validateProduct, (req, res) => {
     productService.create(req.body);
     res.redirect('/');
 });
 
 router.get('/details/:productId', (req, res) => {
-    res.render('details', { title: 'Cubicle' });
+    let cube = productService.findONe(req.params.productId);
+    res.render('details', { title: 'Cubicle', cube });
 });
+
+function validateProduct(req, res, next) {
+    let isValid = true;
+
+    if (req.body.name.trim().length < 2) {
+        isValid = false;
+    } else if (!req.body.imageUrl) {
+        isValid = false;
+    }
+    if (isValid) {
+        next();
+    }
+}
 
 module.exports = router;

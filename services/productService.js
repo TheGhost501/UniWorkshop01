@@ -5,7 +5,9 @@ const cubeData = require('../data/cubesData');
 
 function getAll(query) {
 
-    let result = cubeData.getAll();
+    // let result = cubeData.getAll();
+    let result = Cube.getAll();
+
     if (query.search) {
         result = result.filter(x => x.name.toLocaleLowerCase().includes(query.search));
     }
@@ -19,7 +21,7 @@ function getAll(query) {
 }
 
 function findONe(id) {
-    return cubeData.findONe(id);
+    return cubeData.findOne(id);
 }
 
 function create(data) {
@@ -30,7 +32,8 @@ function create(data) {
         data.difficultyLevel
         );
 
-    return cubeData.create(cube);
+    // return cubeData.create(cube);
+    return cube.save();
 }
 
 module.exports = {

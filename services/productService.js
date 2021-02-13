@@ -1,12 +1,11 @@
-const uniqid = require('uniqid');
 const Cube = require('../models/Cube');
 const cubeData = require('../data/cubesData');
 
 
 function getAll(query) {
 
-    // let result = cubeData.getAll();
-    let result = Cube.getAll();
+    let result = cubeData.getAll();
+    // let result = Cube.getAll();
 
     if (query.search) {
         result = result.filter(x => x.name.toLocaleLowerCase().includes(query.search));
@@ -25,12 +24,7 @@ function findONe(id) {
 }
 
 function create(data) {
-    let cube = new Cube(uniqid(),
-        data.name,
-        data.description,
-        data.imageUrl,
-        data.difficultyLevel
-        );
+    let cube = new Cube(data);
 
     // return cubeData.create(cube);
     return cube.save();

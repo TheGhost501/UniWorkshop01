@@ -3,8 +3,12 @@ const productService = require('../services/productService');
 const router = Router();
 
 router.get('/', (req, res) => {
-    let cubes = productService.getAll(req.query);
-    res.render('home', { title: 'Home', cubes });
+productService.getAll(req.query)
+    .then(cubes => {
+        res.render('home', { title: 'Home', cubes });
+    })
+    .catch(() => res.status(500).end());
+
 });
 
 router.get('/create', (req, res) => {
@@ -18,8 +22,8 @@ router.post('/create', validateProduct, (req, res) => {
 
 });
 
-router.get('/details/:productId', (req, res) => {
-    let cube = productService.findONe(req.params.productId);
+router.get('/details/:productId', async (req, res) => {
+    let cube = await productService.findONe(req.params.productId);
     res.render('details', { title: 'Cubicle', cube });
 });
 

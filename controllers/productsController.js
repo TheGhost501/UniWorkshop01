@@ -24,13 +24,13 @@ router.post('/create', validateProduct, (req, res) => {
 });
 
 router.get('/details/:productId', async (req, res) => {
-    let cube = await productService.findONe(req.params.productId);
+    let cube = await productService.findONe(req.params.productId, true);
     res.render('details', { title: 'Cubicle', cube });
 });
 
 router.get('/:productId/attach', async (req, res) => {
     let cube = await productService.findONe(req.params.productId);
-    let accessories = await accessoryService.getAll();
+    let accessories = await accessoryService.getAllAvailable(cube.accessories);
     res.render('attachAccessory', {cube, accessories});
 })
 

@@ -20,7 +20,11 @@ async function getAll(query) {
     return result;
 }
 
-function findONe(id) {
+function findONe(id, accessories) {
+    if (accessories === true) {
+        return Cube.findById(id).populate('accessories').lean();
+    };
+    
     return Cube.findById(id).lean();
 
 }

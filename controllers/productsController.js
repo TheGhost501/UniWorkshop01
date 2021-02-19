@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const productService = require('../services/productService');
+const accessoryService = require('../services/accessoryService');
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -26,6 +27,17 @@ router.get('/details/:productId', async (req, res) => {
     let cube = await productService.findONe(req.params.productId);
     res.render('details', { title: 'Cubicle', cube });
 });
+
+router.get('/:productId/attach', async (req, res) => {
+    let cube = await productService.findONe(req.params.productId);
+    let accessories = await accessoryService.getAll();
+    res.render('attachAccessory', {cube, accessories});
+})
+
+router.post('/:productId/attach', (req, res) => {
+    productService.attachAccessory(req.params.productId, req.body.accessory)
+    .then(() => res.redirect(`/details/${req.params.productId}`));
+})
 
 function validateProduct(req, res, next) {
     let isValid = true;

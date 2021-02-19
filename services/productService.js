@@ -1,3 +1,4 @@
+const Accessory = require('../models/Accessory');
 const Cube = require('../models/Cube');
 
 
@@ -29,8 +30,17 @@ function create(data) {
     return cube.save();
 }
 
+async function attachAccessory(cubeId, accessoryId) {
+    let product = await Cube.findById(cubeId);
+    let accessory = await Accessory.findById(accessoryId);
+
+    product.accessories.push(accessory);
+    return product.save();
+}
+
 module.exports = {
     create,
     getAll,
-    findONe
+    findONe,
+    attachAccessory
 }
